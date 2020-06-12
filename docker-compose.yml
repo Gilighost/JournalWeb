@@ -1,0 +1,14 @@
+web:
+  image: nginx:latest
+  ports:
+    - "8080:80"
+  volumes:
+    - ./src:/src
+    - ./nginx-config/conf.d:/etc/nginx/conf.d
+    - ./nginx-config/nginx.conf:/etc/nginx/nginx.conf
+  links:
+    - php
+php:
+  image: php:7-fpm
+  volumes:
+    - ./src:/src
