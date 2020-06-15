@@ -4,7 +4,7 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: my_insecure_password
-      MYSQL_DATABASE: test_db
+      MYSQL_DATABASE: journal
       MYSQL_USER: devuser
       MYSQL_PASSWORD: devpass
     ports:
@@ -23,7 +23,7 @@ services:
       - php
   php:
     build: .
-    image: myphp:1
+    image: my_php:1
     volumes:
       - ./src:/src
     depends_on:
