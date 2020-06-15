@@ -9,6 +9,7 @@ services:
       MYSQL_PASSWORD: devpass
     ports:
       - "9906:3306"
+    command: --init-file /var/lib/mysql/application/init.sql
     volumes:
       - ./data:/var/lib/mysql
   web:

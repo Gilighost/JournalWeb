@@ -1,0 +1,6 @@
+*
+
+!.gitignore
+!application/init.sql
+
+!*/
