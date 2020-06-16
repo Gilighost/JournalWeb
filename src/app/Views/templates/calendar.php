@@ -25,9 +25,10 @@
 
 <script>
   let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  let today = getDate();
-  let currentMonth = today.getMonth();
-  let currentYear = today.getFullYear();
+  let displayDay = getDate();
+  let today = new Date();
+  let currentMonth = displayDay.getMonth();
+  let currentYear = displayDay.getFullYear();
 
   showCalendar(currentYear, currentMonth);
 
@@ -76,7 +77,7 @@
           let cellText = document.createTextNode(date);
 
           cellLink.innerHtml = date;
-          if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
+          if (date === displayDay.getDate() && year === displayDay.getFullYear() && month === displayDay.getMonth()) {
             cell.classList.add("today");
           }
             
@@ -100,7 +101,7 @@
     .then(response => response.json())
     .then(entryDays => {
       for(let day of entryDays) {
-        if(day !== today.getDate() || year !== today.getFullYear() || month !== today.getMonth()) {
+        if(day !== displayDay.getDate() || year !== displayDay.getFullYear() || month !== displayDay.getMonth()) {
           let calDay = document.getElementById(`cal-day-${day}`);
           calDay.classList.add("entry");
           calDay.href=`/${year}-${month + 1}-${day}`;
