@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS `journal`;
+CREATE USER IF NOT EXISTS 'devuser'@'%' IDENTIFIED BY 'devpass';
+GRANT SELECT, INSERT, UPDATE ON `journal`.* TO `devuser`@`%`;
 USE `journal`;
 CREATE TABLE IF NOT EXISTS `entries` (
   `id` int NOT NULL AUTO_INCREMENT,
