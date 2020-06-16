@@ -8,43 +8,18 @@
 <body class="is-preload">
 <!-- Content -->
     <div id="content">
-        <div class="inner">
+        <div class="inner" id="infinite-container">
 
-        <?php if (!empty($entries) && is_array($entries)) : ?>
-
-            <?php foreach ($entries as $entry): ?>
-
-                <!-- Post -->
-                <article class="box post post-excerpt">
-                    <div class="info">
-                        <span class="date">
-                            <span class="month"><?= esc(Date('M', strtotime($entry['date']))); ?></span>
-                            <span class="day"><?= esc(Date('j', strtotime($entry['date']))); ?></span>
-                            <span class="year">,&ensp;</span><span><?= esc(Date('Y', strtotime($entry['date']))); ?></span>
-                        </span>
-                    </div>
-                    <?php if (!empty($entry['description'])) : ?>
-                        <header>
-                            <p><?= esc($entry['description']); ?></p>
-                        </header>
-                    <?php endif ?>
-                    <?php if (!empty($entry['body'])) : ?>
-                        <div class="entry-body">
-                            <?= $entry['body'] ?>
-                        </div>
-                        <br />
-                    <?php endif ?>
-                </article>
-
-            <?php endforeach; ?>
-
+            <?php if (!empty($entries) && is_array($entries)) : ?>
+                <?php foreach ($entries as $entry): ?>
+                    <!-- Post -->
+                    <?= view('templates/entry', ['entry' => $entry]) ?>
+                <?php endforeach; ?>
             <?php else : ?>
-
-            <h3>No journal entries.</h3>
-
-            <p>Write one for today!</p>
-
+                <h3>No journal entries.</h3>
+                <p>Write one for today!</p>
             <?php endif ?>
+
         </div>
     </div>
 
@@ -53,5 +28,35 @@
         'calDate' => !empty($isDateEntry) ? $entries[0]['date'] : null,
     ]); ?>
 </body>
+
+<script>
+    var currentPage = 1;
+    var canRequestMore = true;
+    var infiniteContainer = document.getElementById("infinite-container");
+
+    function loadMore() {
+        canRequestMore = false;
+        fetch(`/?page=${++currentPage}`, { headers: {
+            "X-Requested-With": "XMLHttpRequest"
+        }})
+        .then(response => response.text())
+        .then(html => {
+            infiniteContainer.innerHTML += html;
+            canRequestMore = true;
+        })
+    }
+
+    window.addEventListener('scroll', function() {
+        var scrollTop = window.scrollY;
+        var windowHeight = window.outerHeight
+        var bodyHeight = document.body.clientHeight - windowHeight;
+
+        var scrollPercentage = scrollTop / bodyHeight;
+
+        if (scrollPercentage > 0.8 && canRequestMore) {
+            loadMore();
+        }
+    });
+</script>
 
 <?php echo view('templates/footer'); ?>

@@ -10,6 +10,8 @@ class Journal extends Controller
 
     protected $helpers = ['url', 'form'];
 
+    const PAGE_SIZE = 10;
+
     public function __construct()
     {
         $this->model = new JournalModel();
@@ -17,8 +19,20 @@ class Journal extends Controller
 
     public function index()
     {
+        if ($this->request->isAJAX()) {
+            $page = $this->request->getVar('page', FILTER_SANITIZE_NUMBER_INT);
+
+            $entries = $this->model->getEntries(self::PAGE_SIZE, intval($page) * self::PAGE_SIZE);
+
+            foreach ($entries as $entry) {
+                echo view('templates/entry', ['entry' => $entry]);
+            }
+
+            return;
+        }
+
         $data = [
-            'entries' => $this->model->getEntries(),
+            'entries' => $this->model->getEntries(self::PAGE_SIZE),
             'isDateEntry' => false,
         ];
 
@@ -28,7 +42,7 @@ class Journal extends Controller
     public function entry($dateString = null)
     {
         $date = strtotime($dateString);
-        $entry = $date ? $this->model->getEntries($date) : null;
+        $entry = $date ? $this->model->getEntry($date) : null;
      
         if (empty($entry))
         {
@@ -51,7 +65,7 @@ class Journal extends Controller
             return redirect()->to('/write/' . Date('Y-m-d'));
         }
 
-        $entry = $this->model->getEntries($date);
+        $entry = $this->model->getEntry($date);
 
         $data = [
             'entry' => (empty($entry)

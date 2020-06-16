@@ -7,13 +7,13 @@ class JournalModel extends Model
     protected $table = 'entries';
     protected $allowedFields = ['date', 'description', 'body'];
 
-    public function getEntries($date = null)
+    public function getEntries($take, $skip = 0)
     {
-        if (is_null($date))
-        {
-            return $this->orderBy('date DESC')->findAll();
-        }
+        return $this->orderBy('date DESC')->findAll($take, $skip);
+    }
 
+    public function getEntry($date)
+    {
         return $this
             ->where('date', Date('Y-m-d', $date))
             ->orderBy('date DESC')
