@@ -6,8 +6,8 @@
       <!-- Nav -->
       <nav id="nav">
         <ul>
-          <li class="current"><a href="#">Latest Post</a></li>
-          <li><a href="#">Archives</a></li>
+          <?= $currentPage == 'entries' ? '<li class="current">' : '<li>' ?><a href="/"><i class="fa fa-book" aria-hidden="true"></i>&emsp;Entries</a></li>
+          <?= $currentPage == 'write' ? '<li class="current">' : '<li>' ?><a href="/write"><i class="fa fa-pencil-alt" aria-hidden="true"></i>&emsp;Today</a></li>
         </ul>
       </nav>
 
@@ -29,7 +29,9 @@
       </section> -->
       
       <!-- Calendar -->
-      <?php echo view('templates/calendar'); ?>
+      <?php echo view('templates/calendar', [
+        'calDate' => $calDate,
+      ]); ?>
       
       <!-- Copyright -->
       <!-- <ul id="copyright">

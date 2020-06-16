@@ -31,6 +31,8 @@ $routes->setAutoRoute(false);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 
+$routes->get('/calendar/(:segment)/(:segment)', 'Journal::getEntryDays/$1/$2');
+
 $routes->get('/write', 'Journal::getWrite');
 
 $routes->get('/write/(:segment)', 'Journal::getWrite/$1');

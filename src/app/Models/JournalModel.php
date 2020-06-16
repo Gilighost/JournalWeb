@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 class JournalModel extends Model
 {
     protected $table = 'entries';
-    protected $allowedFields = ['title', 'slug', 'body'];
+    protected $allowedFields = ['date', 'description', 'body'];
 
     public function getEntries($date = null)
     {
@@ -48,5 +48,19 @@ class JournalModel extends Model
             .$bodySql['update'].';';
 
         $this->db->query($sql);
+    }
+
+    public function getDaysWithEntryForMonth($year, $month) {
+        $startDate = Date('Y-m-d', strtotime($month.'/1/'.$year));
+        $sql = 'SELECT DAY(`date`) as day
+            FROM entries
+            WHERE `date` >= ?
+            AND `date` < DATE_ADD(?, INTERVAL 1 MONTH);';
+
+        $resultArray = $this->db->query($sql, [$startDate, $startDate])->getResult('array');
+
+        return array_map(function($x) { 
+            return intval($x['day']);
+        }, $resultArray);
     }
 }

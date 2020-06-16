@@ -1,7 +1,7 @@
 
 <?php echo view('templates/header', 
     [
-        'subtitle' => !empty($entries) && count($entries) == 1 ? Date('m/d/Y', strtotime($entries[0]['date'])) : null,
+        'subtitle' => !empty($isDateEntry) && $isDateEntry == true ? Date('m/d/Y', strtotime($entries[0]['date'])) : null,
     ]); 
 ?>
 
@@ -20,7 +20,7 @@
                         <span class="date">
                             <span class="month"><?= esc(Date('M', strtotime($entry['date']))); ?></span>
                             <span class="day"><?= esc(Date('j', strtotime($entry['date']))); ?></span>
-                            <span class="year">, <?= esc(Date('Y', strtotime($entry['date']))); ?></span>
+                            <span class="year">,&ensp;</span><span><?= esc(Date('Y', strtotime($entry['date']))); ?></span>
                         </span>
                     </div>
                     <?php if (!empty($entry['description'])) : ?>
@@ -48,7 +48,10 @@
         </div>
     </div>
 
-    <?php echo view('templates/sidebar'); ?>
+    <?php echo view('templates/sidebar', [
+        'currentPage' => !empty($isDateEntry) && $isDateEntry ? 'entry' : 'entries',
+        'calDate' => !empty($isDateEntry) ? $entries[0]['date'] : null,
+    ]); ?>
 </body>
 
 <?php echo view('templates/footer'); ?>

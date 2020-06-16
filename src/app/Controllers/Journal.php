@@ -19,6 +19,7 @@ class Journal extends Controller
     {
         $data = [
             'entries' => $this->model->getEntries(),
+            'isDateEntry' => false,
         ];
 
         echo view('pages/entries', $data);
@@ -36,6 +37,7 @@ class Journal extends Controller
 
         $data = [
             'entries' => [ $entry ],
+            'isDateEntry' => true,
         ];
 
         echo view('pages/entries', $data);
@@ -66,8 +68,7 @@ class Journal extends Controller
         $date = strtotime($dateString);
         if(!$date)
         {
-            $this->$response->setStatusCode(400, 'Invalid date.');
-            return;
+            return $this->$response->setStatusCode(400, 'Invalid date.');
         }
 
         if (!$this->validate([
@@ -97,5 +98,17 @@ class Journal extends Controller
 
             return redirect()->to('/');
         }
+    }
+
+    public function getEntryDays($year, $month)
+    {
+        if(intval($month) > 12 || intval($month) < 1)
+        {
+            return $this->$response->setStatusCode(400, 'Invalid month.');
+        }
+
+        $days = $this->model->getDaysWithEntryForMonth($year, $month);
+
+        return $this->response->setJSON($days);
     }
 }

@@ -331,6 +331,11 @@ dl {
   font-weight: bold;
 }
 
+button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Row */
 
 .row {
@@ -2109,6 +2114,12 @@ ol li {
   margin: 0 0 0.25em 0;
 }
 
+.box.calendar .nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
 .box.calendar tbody tr:nth-child(2n + 2) {
   background: transparent;
 }
@@ -2167,6 +2178,10 @@ ol li {
   box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 0.15),
     0 0.025em 0.15em 0em rgba(0, 0, 0, 0.25);
   color: #fff !important;
+}
+
+a.entry {
+  color: #63ae9a !important;
 }
 
 .box.post {
@@ -2472,7 +2487,7 @@ ol li {
   text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.5);
   padding: 3em 1.35em 1em 1.15em;
   background: #304046 url("images/bg01.png");
-  overflow-y: auto;
+  overflow-y: hidden;
   left: 0;
   box-shadow: inset -0.1em 0em 0.35em 0em rgba(0, 0, 0, 0.15);
   -moz-order: -1;
@@ -2782,7 +2797,7 @@ ol li {
 
   .box.post .info .date {
     position: relative;
-    z-index: 1;
+    /* z-index: 1; */
     font-family: "Open Sans Condensed", sans-serif;
     font-weight: 400;
     text-align: center;
