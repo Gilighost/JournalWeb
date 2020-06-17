@@ -2558,6 +2558,7 @@ a.entry {
   background-color: #fff;
   background-image: url("images/bg02.png");
   width: 100%;
+  min-height: 100vh;
   -moz-flex-grow: 1;
   -webkit-flex-grow: 1;
   -ms-flex-grow: 1;

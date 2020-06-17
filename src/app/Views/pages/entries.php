@@ -17,7 +17,7 @@
                 <?php endforeach; ?>
             <?php else : ?>
                 <h3>No journal entries.</h3>
-                <p>Write one for today!</p>
+                <p><a href="/write">Write one for today!</a></p>
             <?php endif ?>
 
         </div>
@@ -41,8 +41,11 @@
         }})
         .then(response => response.text())
         .then(html => {
-            infiniteContainer.innerHTML += html;
-            canRequestMore = true;
+            console.log(html);
+            if (html) {
+                infiniteContainer.innerHTML += html;
+                canRequestMore = true;
+            }
         })
     }
 
